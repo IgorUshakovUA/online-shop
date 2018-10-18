@@ -1,7 +1,6 @@
 package com.study.shop.service;
 
 import com.study.shop.dao.ProductDao;
-import com.study.shop.dao.jdbc.JdbcProductDao;
 import com.study.shop.entity.Product;
 
 import java.time.LocalDateTime;

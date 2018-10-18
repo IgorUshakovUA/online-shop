@@ -4,36 +4,17 @@ import com.study.shop.dao.ProductDao;
 import com.study.shop.dao.jdbc.mapper.ProductRowMapper;
 import com.study.shop.entity.Product;
 
-import java.io.FileReader;
-import java.security.InvalidParameterException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class JdbcProductDao implements ProductDao {
     private final static ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
 
-    private Connection getConnection() {
-        try {
-            Properties properties = new Properties();
-            properties.load(new FileReader("src/main/resources/application.properties"));
-            String driver = properties.getProperty("jdbc.driver");
-            String url = properties.getProperty("jdbc.url");
-            String username = properties.getProperty("jdbc.username");
-            String password = properties.getProperty("jdbc.password");
-            Class.forName(driver);
-            return DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public List<Product> getAll() {
-        try (Connection connection = getConnection();
+        try (Connection connection = JdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, name, price, add_date, picture_path FROM product");
              ResultSet resultSet = preparedStatement.executeQuery();) {
 
@@ -52,7 +33,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public List<Product> getById(int id) {
-        try (Connection connection = getConnection();
+        try (Connection connection = JdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, name, price, add_date, picture_path FROM product WHERE id = ?")
         ) {
             preparedStatement.setInt(1, id);
@@ -73,7 +54,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public void update(int id, String name, double price, LocalDateTime addTime, String picturePath) {
-        try (Connection connection = getConnection();
+        try (Connection connection = JdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE product SET name = ?, price = ?, add_date = ?, picture_path = ? WHERE id = ?")
         ) {
             preparedStatement.setString(1, name);
@@ -93,7 +74,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public void delete(int id) {
-        try (Connection connection = getConnection();
+        try (Connection connection = JdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM product WHERE id = ?")
         ) {
             preparedStatement.setInt(1, id);
@@ -109,7 +90,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public int add(String name, double price, String picturePath) {
-        try (Connection connection = getConnection();
+        try (Connection connection = JdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO product (id, name, price, picture_path) VALUES(DEFAULT, ?, ?, ?)");
              PreparedStatement serialStatement = connection.prepareStatement("SELECT currval('product_id_seq')")
         ) {
