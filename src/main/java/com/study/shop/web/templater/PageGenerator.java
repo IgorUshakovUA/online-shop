@@ -1,6 +1,5 @@
 package com.study.shop.web.templater;
 
-import com.study.shop.util.ResourceUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -27,7 +26,7 @@ public class PageGenerator {
     public String getPage(String filename, Map<String, Object> data) {
         Writer stream = new StringWriter();
         try {
-            cfg.setDirectoryForTemplateLoading(ResourceUtils.getResourceDirectory());
+            cfg.setClassForTemplateLoading(this.getClass(), "/");
             Template template = cfg.getTemplate(filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {

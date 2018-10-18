@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class AssetsServlet extends HttpServlet {
     @Override
@@ -16,9 +16,21 @@ public class AssetsServlet extends HttpServlet {
         String requestURI = req.getRequestURI();
 
         ServletOutputStream outputStream = resp.getOutputStream();
+        InputStream inputStream = ResourceUtils.getResourceAsStream(requestURI.substring(1));
 
-        Path path = ResourceUtils.getFileFromResources(requestURI.substring(1)).toPath();
-        Files.copy(path, outputStream);
+        try {
+            copyData(inputStream, outputStream);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private static void copyData(InputStream in, OutputStream out) throws Exception {
+        byte[] buffer = new byte[8 * 1024];
+        int len;
+        while ((len = in.read(buffer)) > 0) {
+            out.write(buffer, 0, len);
+        }
     }
 }

@@ -1,17 +1,11 @@
 package com.study.shop.util;
 
-import java.io.File;
+import java.io.InputStream;
 
 public class ResourceUtils {
-    public static File getFileFromResources(String path) {
+
+    public static InputStream getResourceAsStream(String path) {
         ClassLoader classLoader = ResourceUtils.class.getClassLoader();
-        return new File(classLoader.getResource(path).getFile());
-
-    }
-
-    public static File getResourceDirectory() {
-        ClassLoader classLoader = ResourceUtils.class.getClassLoader();
-        return new File(classLoader.getResource(".").getFile());
-
+        return classLoader.getResourceAsStream(path);
     }
 }
