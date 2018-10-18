@@ -1,5 +1,7 @@
 package com.study.shop.dao.jdbc;
 
+import com.study.shop.util.ResourceUtils;
+
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +12,7 @@ public class JdbcConnection {
     public static Connection getConnection() {
         try {
             Properties properties = new Properties();
-            properties.load(new FileReader("src/main/resources/application.properties"));
+            properties.load(new FileReader(ResourceUtils.getFileFromResources("application.properties")));
             String driver = properties.getProperty("jdbc.driver");
             String url = properties.getProperty("jdbc.url");
             String username = properties.getProperty("jdbc.username");
