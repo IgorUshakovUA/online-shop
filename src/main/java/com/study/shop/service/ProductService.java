@@ -1,5 +1,7 @@
 package com.study.shop.service;
 
+import com.study.shop.entity.Cart;
+import com.study.shop.entity.CartProduct;
 import com.study.shop.entity.Product;
 
 import java.time.LocalDateTime;
@@ -9,6 +11,8 @@ public interface ProductService {
     List<Product> getAll();
 
     List<Product> getById(int id);
+
+    List<CartProduct> getByCart(Cart cart);
 
     void update(int id, String name, double price, LocalDateTime addTime, String picturePath);
 

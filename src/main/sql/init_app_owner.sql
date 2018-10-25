@@ -1,3 +1,5 @@
+DROP TABLE product;
+
 CREATE TABLE product (
   id SERIAL PRIMARY KEY
 , name VARCHAR(50) NOT NULL
@@ -53,32 +55,39 @@ VALUES (
 
 COMMIT;
 
+DROP TABLE app_user;
+
 CREATE TABLE app_user (
   id SERIAL PRIMARY KEY
 , username VARCHAR(50) NOT NULL
-, password VARCHAR(50) NOT NULL
+, password VARCHAR(32) NOT NULL
+, salt VARCHAR(36)
 , user_role VARCHAR(10) DEFAULT 'USER' CHECK(user_role IN ('USER','ADMIN'))
 );
 
 INSERT INTO app_user (
   username
 , password
+, salt
 , user_role
 )
 VALUES (
   'ADMIN'
-, 'ADMIN'
+, '208566b8daa47833891acc0c0a8ed38e' /* admin */
+, '8265837c-62a3-4275-8c44-59812f2a338f'
 , 'ADMIN'
 );
 
 INSERT INTO app_user (
   username
 , password
+, salt
 , user_role
 )
 VALUES (
   'USER1'
-, 'USER1'
+, '46af3806bc674638632ca17f789bd5ad' /* user1 */
+, 'afbf8dd1-4f79-4d70-b929-2decfaafc3f1'
 , 'USER'
 );
 

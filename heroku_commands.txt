@@ -1,0 +1,6 @@
+git push heroku master
+heroku logs --tail
+heroku ps:scale web=1
+heroku ps:stop worker
+heroku run bash
+heroku ps:exec

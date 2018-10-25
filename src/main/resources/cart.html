@@ -16,7 +16,7 @@
 
 <#include "navBar.html">
 
-<h1>Products:</h1>
+<h1>Cart:</h1>
 
 <table class="table table-striped">
     <thead>
@@ -26,38 +26,38 @@
         <th scope="col">Price</th>
         <th scope="col">Added</th>
         <th scope="col">Picture</th>
+        <th scope="col">Count</th>
         <th scope="col" celspan="3" style="text-align: center;">Action</th>
     </tr>
     </thead>
     <tbody>
     <#list products as product>
     <tr>
-        <th scope="row">${product.id}</th>
-        <td> ${product.name}</td>
-        <td> ${product.price}</td>
-        <td> ${product.addDate}</td>
-        <td> <img src="${product.picturePath}" alt="Photo" height="100" width="100"></td>
+        <th scope="row">${product.getProduct().getId()}</th>
+        <td> ${product.getProduct().getName()}</td>
+        <td> ${product.getProduct().getPrice()}</td>
+        <td> ${product.getProduct().getAddDate()}</td>
+        <td> <img src="${product.getProduct().getPicturePath()}" alt="Photo" height="100" width="100"></td>
+        <td> ${product.count}</td>
         <td>
-            <form action="/product/edit/${product.id}" method="GET">
-                <input type="image" src="/assets/img/edit.png" alt="Edit" height="50" width="50" />
+            <form action="/minus_one_from_cart/${product.getProduct().getId()}" method="GET">
+                <input type="image" src="/assets/img/remove_from_cart.png" alt="Minus one" height="50" width="50" />
             </form>
         </td>
         <td>
-            <form action="/product/delete/${product.id}" method="GET">
-                <input type="image" src="/assets/img/delete.png" alt="Delete" height="50" width="50" />
+            <form action="/delete_from_cart/${product.getProduct().getId()}" method="GET">
+                <input type="image" src="/assets/img/delete.png" alt="Delete from cart" height="50" width="50" />
             </form>
         </td>
         <td>
-            <form action="/add_to_cart/${product.id}" method="GET">
-                <input type="image" src="/assets/img/cart.jpeg" alt="Add to cart" height="50" width="50" />
+            <form action="/plus_one_to_cart/${product.getProduct().getId()}" method="GET">
+                <input type="image" src="/assets/img/cart.jpeg" alt="Plus one" height="50" width="50" />
             </form>
         </td>
     </tr>
     </#list>
     </tbody>
 </table>
-
-<a href="/cart">View your Cart (${count})</a>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

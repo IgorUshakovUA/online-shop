@@ -1,6 +1,8 @@
 package com.study.shop.service;
 
 import com.study.shop.dao.ProductDao;
+import com.study.shop.entity.Cart;
+import com.study.shop.entity.CartProduct;
 import com.study.shop.entity.Product;
 
 import java.time.LocalDateTime;
@@ -21,6 +23,12 @@ public class DefaultProductService implements ProductService {
     @Override
     public List<Product> getById(int id) {
         List<Product> products = productDao.getById(id);
+        return products;
+    }
+
+    @Override
+    public List<CartProduct> getByCart(Cart cart) {
+        List<CartProduct> products = productDao.getByCart(cart);
         return products;
     }
 

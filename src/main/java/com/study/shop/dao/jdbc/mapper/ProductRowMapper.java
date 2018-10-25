@@ -14,7 +14,6 @@ public class ProductRowMapper {
         String name = resultSet.getString("name");
         int id = resultSet.getInt("id");
         double price = resultSet.getDouble("price");
-        String dateTime = resultSet.getString("add_date");
         Timestamp timestamp = resultSet.getTimestamp("add_date");
         LocalDateTime addDate = timestamp.toLocalDateTime();
         String picturePath = resultSet.getString("picture_path");

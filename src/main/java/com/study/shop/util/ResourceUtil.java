@@ -1,11 +1,12 @@
 package com.study.shop.util;
 
+import com.study.shop.Starter;
+
 import java.io.InputStream;
 
-public class ResourceUtils {
-
+public class ResourceUtil {
     public static InputStream getResourceAsStream(String path) {
-        ClassLoader classLoader = ResourceUtils.class.getClassLoader();
+        ClassLoader classLoader = ResourceUtil.class.getClassLoader();
         return classLoader.getResourceAsStream(path);
     }
 }
