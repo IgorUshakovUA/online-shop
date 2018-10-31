@@ -16,6 +16,10 @@ public class JdbcUserDao implements UserDao {
 
     private DataSource dataSource;
 
+    public JdbcUserDao() {
+
+    }
+
     public JdbcUserDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -39,5 +43,9 @@ public class JdbcUserDao implements UserDao {
         }
 
         return null;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

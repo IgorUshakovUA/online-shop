@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.study.shop.web.controller"/>
+ <!--   <context:component-scan base-package="com.study.shop.web.filter"/>-->
+
+    <mvc:annotation-driven/>
+<!--
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/" />
+            <mvc:mapping path="/products" />
+            <bean class="com.study.shop.web.controller.UserAuthInterceptor" />
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/product/edit/*" />
+            <mvc:mapping path="/product/delete/*" />
+            <bean class="com.study.shop.web.controller.AdminAuthInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+-->
+
+    <!-- SERVICES -->
+    <bean id="productService" class="com.study.shop.service.DefaultProductService">
+        <property name="productDao" ref="productDao"/>
+    </bean>
+
+    <bean id="productDao" class="com.study.shop.dao.jdbc.JdbcProductDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="userDao" class="com.study.shop.dao.jdbc.JdbcUserDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="java.net.URI" id="dbUrl">
+        <constructor-arg value="#{systemEnvironment['DATABASE_URL']==null?'null':systemEnvironment['DATABASE_URL']}"/>
+    </bean>
+
+    <bean id="dataSource" class="org.postgresql.ds.PGSimpleDataSource">
+        <property name="serverName" value="#{ @dbUrl.toString()=='null'?'localhost':@dbUrl.getHost() } "/>
+        <property name="databaseName" value="#{ @dbUrl.toString()=='null'?'app_owner':@dbUrl.getPath().substring(1) } "/>
+        <property name="portNumber" value="#{ @dbUrl.toString()=='null'?'5432':@dbUrl.getPort() }"/>
+        <property name="user" value="#{ @dbUrl.toString()=='null'?'app_owner':@dbUrl.getUserInfo().split(':')[0] } "/>
+        <property name="password" value="#{ @dbUrl.toString()=='null'?'app_owner':@dbUrl.getUserInfo().split(':')[1] } "/>
+    </bean>
+
+    <bean id="defaultUserService" class="com.study.shop.service.DefaultUserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="securityService" class="com.study.shop.security.SecurityService">
+        <property name="defaultUserService" ref="defaultUserService" />
+    </bean>
+
+    <bean id="beanUtils" class="com.study.shop.util.BeanUtil"/>
+
+</beans>

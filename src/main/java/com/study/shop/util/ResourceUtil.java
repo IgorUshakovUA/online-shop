@@ -1,7 +1,5 @@
 package com.study.shop.util;
 
-import com.study.shop.Starter;
-
 import java.io.InputStream;
 
 public class ResourceUtil {

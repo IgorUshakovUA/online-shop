@@ -6,12 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtil {
 
-    public void setCookie(String name, String value, HttpServletResponse response) {
+    public static void setCookie(String name, String value, HttpServletResponse response) {
         Cookie cookie = new Cookie(name, value);
         response.addCookie(cookie);
     }
 
-    public String getCookieValue(String name, HttpServletRequest request) {
+    public static String getCookieValue(String name, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {

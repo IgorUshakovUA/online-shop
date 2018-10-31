@@ -3,7 +3,7 @@ package com.study.shop.security;
 import com.study.shop.entity.Cart;
 import com.study.shop.entity.User;
 import com.study.shop.security.entity.Session;
-import com.study.shop.service.UserService;
+import com.study.shop.service.DefaultUserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,15 +14,20 @@ import java.util.UUID;
 public class SecurityService {
     private static long TIMEOUT = 2;
     private List<Session> sessionList = new ArrayList<>();
-    private UserService userService;
 
 
-    public SecurityService(UserService userService) {
-        this.userService = userService;
+    private DefaultUserService defaultUserService;
+
+    public SecurityService() {
+
+    }
+
+    public SecurityService(DefaultUserService defaultUserService) {
+        this.defaultUserService = defaultUserService;
     }
 
     public synchronized Session auth(String login, String password) {
-        User user = userService.getUser(login, password);
+        User user = defaultUserService.getUser(login, password);
         if (user != null) {
             String token = UUID.randomUUID().toString();
             Session session = new Session();
@@ -53,5 +58,9 @@ public class SecurityService {
             }
         }
         return null;
+    }
+
+    public void setDefaultUserService(DefaultUserService defaultUserService) {
+        this.defaultUserService = defaultUserService;
     }
 }

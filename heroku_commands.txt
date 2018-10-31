@@ -4,3 +4,5 @@ heroku ps:scale web=1
 heroku ps:stop worker
 heroku run bash
 heroku ps:exec
+
+heroku buildpacks:clear

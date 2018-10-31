@@ -40,17 +40,17 @@
         <td> <img src="${product.getProduct().getPicturePath()}" alt="Photo" height="100" width="100"></td>
         <td> ${product.count}</td>
         <td>
-            <form action="/minus_one_from_cart/${product.getProduct().getId()}" method="GET">
+            <form action="/cart/minus/${product.getProduct().getId()}" method="GET">
                 <input type="image" src="/assets/img/remove_from_cart.png" alt="Minus one" height="50" width="50" />
             </form>
         </td>
         <td>
-            <form action="/delete_from_cart/${product.getProduct().getId()}" method="GET">
+            <form action="/cart/delete/${product.getProduct().getId()}" method="GET">
                 <input type="image" src="/assets/img/delete.png" alt="Delete from cart" height="50" width="50" />
             </form>
         </td>
         <td>
-            <form action="/plus_one_to_cart/${product.getProduct().getId()}" method="GET">
+            <form action="/cart/plus/${product.getProduct().getId()}" method="GET">
                 <input type="image" src="/assets/img/cart.jpeg" alt="Plus one" height="50" width="50" />
             </form>
         </td>
