@@ -12,7 +12,6 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.study.shop.web.controller"/>
- <!--   <context:component-scan base-package="com.study.shop.web.filter"/>-->
 
     <mvc:annotation-driven/>
 <!--
@@ -44,16 +43,36 @@
     </bean>
 
     <bean class="java.net.URI" id="dbUrl">
-        <constructor-arg value="#{systemEnvironment['DATABASE_URL']==null?'null':systemEnvironment['DATABASE_URL']}"/>
+        <constructor-arg value="#{systemEnvironment['DATABASE_URL']==null?'postrges://app_owner:app_owner@127.0.0.1:5432/app_owner':systemEnvironment['DATABASE_URL']}"/>
     </bean>
 
     <bean id="dataSource" class="org.postgresql.ds.PGSimpleDataSource">
-        <property name="serverName" value="#{ @dbUrl.toString()=='null'?'localhost':@dbUrl.getHost() } "/>
-        <property name="databaseName" value="#{ @dbUrl.toString()=='null'?'app_owner':@dbUrl.getPath().substring(1) } "/>
-        <property name="portNumber" value="#{ @dbUrl.toString()=='null'?'5432':@dbUrl.getPort() }"/>
-        <property name="user" value="#{ @dbUrl.toString()=='null'?'app_owner':@dbUrl.getUserInfo().split(':')[0] } "/>
-        <property name="password" value="#{ @dbUrl.toString()=='null'?'app_owner':@dbUrl.getUserInfo().split(':')[1] } "/>
+        <property name="serverName" value="#{@dbUrl.getHost()}"/>
+        <property name="databaseName" value="#{@dbUrl.getPath().substring(1)}"/>
+        <property name="portNumber" value="#{@dbUrl.getPort()}"/>
+        <property name="user" value="#{@dbUrl.getUserInfo().split(':')[0]}"/>
+        <property name="password" value="#{@dbUrl.getUserInfo().split(':')[1]}"/>
     </bean>
+
+    <!--
+    <bean id="dataSource" class="org.postgresql.ds.PGSimpleDataSource">
+        <property name="serverName" value="localhost"/>
+        <property name="databaseName" value="app_owner"/>
+        <property name="portNumber" value="5432"/>
+        <property name="user" value="app_owner"/>
+        <property name="password" value="app_owner"/>
+    </bean>
+    -->
+
+    <!--
+    <bean id="dataSource" class="org.postgresql.ds.PGSimpleDataSource">
+        <property name="serverName" value="ec2-79-125-8-105.eu-west-1.compute.amazonaws.com"/>
+        <property name="databaseName" value="d6u2jrhlcua09"/>
+        <property name="portNumber" value="5432"/>
+        <property name="user" value="xthiriiuitselo"/>
+        <property name="password" value="4e6d65e9914255dc1f2b0f32102e444bc98e047fc304c74fdbdb8f8fd147f918"/>
+    </bean>
+    -->
 
     <bean id="defaultUserService" class="com.study.shop.service.DefaultUserService">
         <property name="userDao" ref="userDao"/>
